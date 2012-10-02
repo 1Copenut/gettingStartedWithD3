@@ -30,34 +30,36 @@
         
     </style>
     <script>
-    function draw(data) {
-        "use strict";
-        
-        console.log(data.cash)
-        
-        d3.select("body")
-            .append("div")
-            .attr("class", "chart")
-            .selectAll("div.bar")
-            .data(data.cash)
-            .enter()
-            .append("div")
-            .attr("class","line")
-    
-        d3.selectAll("div.line")
-            .append("div")
-            .attr("class","label")
-            .text(function(d){return d.name})
-        
-        d3.selectAll("div.line")
-            .append("div")
-            .attr("class","bar")
-            .style("width", function(d){return d.count/100 + "px"})
-            .text(function(d){return Math.round(d.count)});
-    
-            
-            
-    }
+    	function draw(data) {
+				
+				d3.select('body')
+					.append('div')
+						.attr('class', 'chart')
+					.selectAll('div.line')
+					.data(data.cash)
+					.enter()
+					.append('div')
+						.attr('class', 'line');
+					
+				var test = d3.selectAll('div.line');
+						
+				test
+					.append('div')
+						.attr('class', 'label')
+						.text(function (d) {
+							return d.name;
+						});
+						
+				test
+					.append('div')
+						.attr('class', 'bar')
+						.style('width', function (d) {
+							return d.count/100 + "px";
+						})
+					.text(function (d) {
+						return Math.round (d.count);
+					});
+			}
     </script>
 </head>
 <body>
