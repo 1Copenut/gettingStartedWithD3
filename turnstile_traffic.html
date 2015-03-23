@@ -2,6 +2,36 @@
 <html>
 <head>
     <meta charset="utf-8">
+	<style type="text/css" media="screen">
+		.axis {
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-size: 0.6em;
+		}
+	
+		path {
+			fill: none;
+			stroke: black;
+			stroke-width: 2px;
+		}
+	
+		tick {
+			fill: none;
+			stroke: black;
+		}
+	
+		circle {
+			stroke: black;
+			stroke-width: 0.5px;
+		}
+	
+		circle.times_square {
+			fill: deeppink;
+		}
+	
+		circle.grand_central {
+			fill:mediumseagreen;
+		}
+	</style>
     <script type="text/javascript" src="d3.js"></script>
     <script>
 	function draw(data) {
@@ -77,6 +107,29 @@
 				return time_scale(d.time);
 			})
 			.attr('r', 3);
+			
+		// Create the time series
+		var time_axis = d3.svg.axis()
+			.scale(time_scale);
+			
+		// Add the time series X label
+		d3.select('svg')
+			.append('g')
+			.attr('class', 'x axis')
+			.attr('transform', 'translate(0, ' + height + ')')
+			.call(time_axis);
+			
+		// Create the Y axis series
+		var count_axis = d3.svg.axis()
+			.scale(count_scale)
+			.orient('left');
+			
+		// Add the count series Y label
+		d3.select('svg')
+			.append('g')
+			.attr('class', 'y axis')
+			.attr('transform', 'translate(' + margin + ', 0)')
+			.call(count_axis);
 	}
     </script>
 </head>
