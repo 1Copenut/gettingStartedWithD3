@@ -27,9 +27,21 @@
 		circle.times_square {
 			fill: deeppink;
 		}
+		
+		path.times_square {
+			stroke: deeppink;
+			opacity: 0.5;
+			stroke-width: 1px;
+		}
 	
 		circle.grand_central {
-			fill:mediumseagreen;
+			fill: mediumseagreen;
+		}
+		
+		path.grand_central {
+			stroke: mediumseagreen;
+			opacity: 0.5;
+			stroke-width: 1px;
 		}
 	</style>
     <script type="text/javascript" src="d3.js"></script>
@@ -108,28 +120,65 @@
 			})
 			.attr('r', 3);
 			
-		// Create the time series
+		// Create the time tick marks
 		var time_axis = d3.svg.axis()
 			.scale(time_scale);
 			
-		// Add the time series X label
+		// Add the time series X tick marks
 		d3.select('svg')
 			.append('g')
 			.attr('class', 'x axis')
-			.attr('transform', 'translate(0, ' + height + ')')
+			.attr('transform', 'translate(0, 270)')
 			.call(time_axis);
 			
-		// Create the Y axis series
+		// Create the Y axis tick marks
 		var count_axis = d3.svg.axis()
 			.scale(count_scale)
 			.orient('left');
 			
-		// Add the count series Y label
+		// Add the count series tick marks
 		d3.select('svg')
 			.append('g')
 			.attr('class', 'y axis')
-			.attr('transform', 'translate(' + margin + ', 0)')
+			.attr('transform', 'translate(' + margin + ', 10)')
 			.call(count_axis);
+			
+		// Create a continuous line
+		var line = d3.svg.line()
+			.x(function(d) {
+				return time_scale(d.time)
+			})
+			.y(function(d) {
+				return count_scale(d.count)
+			})
+			
+		// Add the lines to the chart
+		d3.select('svg')
+			.append('path')
+			.attr('d', line(data.times_square))
+			.attr('class', 'times_square');
+			
+		d3.select('svg')
+			.append('path')
+			.attr('d', line(data.grand_central))
+			.attr('class', 'grand_central');
+			
+		// Add the y axis label
+		d3.select('.y.axis')
+			.append('text')
+			.text('Mean number of turnstile revolutions')
+			.attr('transform', 'rotate (90, ' + -margin + ', 0)')
+			.attr('x', 20)
+			.attr('y', 0);
+			
+		// Add the x axis label
+		d3.select('.x.axis')
+			.append('text')
+			.text('Time')
+			.attr('x', function() {
+				return (width / 1.6) - margin
+			})
+			.attr('y', margin / 1.5);
 	}
     </script>
 </head>
